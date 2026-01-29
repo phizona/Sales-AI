@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="/src/output.css">
+     <title>SAAS PROJECT</title>
+     <style>
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                        padding 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                        opacity 0.3s ease;
+            opacity: 0;
+        }
+        
+        .accordion-content.active {
+            max-height: 500px;
+            opacity: 1;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+        
+        .accordion-icon {
+            transition: transform 0.3s ease;
+        }
+        
+        .accordion-icon.rotate {
+            transform: rotate(180deg);
+        }
+        
+        .faq-card {
+            transition: all 0.3s ease;
+        }
+        
+        .faq-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.2);
+        }
+        
+        .faq-card.active {
+            border-color: rgba(139, 92, 246, 0.5);
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(59, 130, 246, 0.05));
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .slide-down {
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        .question-hover {
+            transition: color 0.2s ease;
+        }
+        
+        .faq-card:hover .question-hover {
+            /* color: rgb(133, 62, 133); */
+            color: #253ca1dd;
+        }
+    </style>
+ </head>
+ <body class="min-h-screen bg-linear-to-r from-indigo-500 to-violet-600 text-lg font-normal">
+      <div>
+         <!-- =================NAVIGATION BAR============== -->
+          <header class="absolute inset-x-0 top-0 z-50">
+              <nav aria-label="Global" class="flex items-center justify-between p-6 lg:px-8">
+                  <div class="flex lg:flex-1">
+                      <a href="#" class="-m-1.5 p-1.5">
+                         <!-- <span class="sr-only">Your Company</span> -->
+                          <div class="flex items-center space-x-2">
+                             <div class="w-10 h-8 bg-white rounded-lg flex items-center justify-center pulse-glow">
+                                 <span class="text-2xl font-bold text-indigo-600">S</span>
+                              </div>
+                             <span class="text-white text-2xl font-bold">SalesAI</span>
+                          </div>
+                      </a>
+                  </div>
+                  <div class="flex lg:hidden">
+                     <button type="button" command="show-modal" commandfor="mobile-menu" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white">
+                          <span class="sr-only">Open main menu</span>
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
+                             <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" stroke-linecap="round" stroke-linejoin="round" />
+                         </svg>
+                      </button>
+                  </div>
+                  <div class="hidden lg:flex lg:gap-x-12">
+                      <a href="#features" class="text-2xl font-semibold text-white">Features</a>
+                      <a href="#pricing" class="text-2xl font-semibold text-white">Pricing</a>
+                      <a href="#testimonials" class="text-2xl font-semibold text-white">Testimonials</a>
+                      <a href="#faq" class="text-2xl font-semibold text-white">FAQ</a>
+                  </div>
+                  <div class="hidden lg:flex lg:flex-1 lg:justify-end">
+                     <a href="./login.html" class="text-2xl font-semibold text-white">Log in <span aria-hidden="true">&rarr;</span></a>
+                  </div>
+               </nav>
+               <el-dialog>
+                  <dialog id="mobile-menu" class="backdrop:bg-transparent lg:hidden">
+                      <div tabindex="0" class="fixed inset-0 focus:outline-none">
+                          <el-dialog-panel class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+                              <div class="flex items-center justify-between">
+                                  <a href="#" class="-m-1.5 p-1.5">
+                                     <!-- <span class="sr-only">Your Company</span> -->
+                                     <div class="flex items-center space-x-2">
+                                         <div class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center">
+                                             <span class="text-2xl font-bold text-white">S</span>
+                                          </div>
+                                         <span class="text-indigo-600 text-xl font-bold">SalesAI</span>
+                                     </div>
+                                  </a>
+                                  <button type="button" command="close" commandfor="mobile-menu" class="-m-2.5 rounded-md p-2.5 text-indigo-600">
+                                     <span class="sr-only">Close menu</span>
+                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6">
+                                         <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+                                     </svg>
+                                 </button>
+                              </div>
+                              <div class="mt-6 flow-root">
+                                  <div class="-my-6 divide-y divide-gray-500/10">
+                                     <div class="space-y-2 py-6">
+                                         <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-indigo-600 hover:bg-indigo-50">Features</a>
+                                         <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-indigo-600 hover:bg-indigo-50">Pricing</a>
+                                         <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-indigo-600 hover:bg-indigo-50">Testimonials</a>
+                                         <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-indigo-600 hover:bg-indigo-50">FAQ</a>
+                                     </div>
+                                     <div class="py-6">
+                                         <a href="./login.html" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-indigo-600 hover:bg-indigo-50">Log in</a>
+                                     </div>
+                                  </div>
+                               </div>
+                         </el-dialog-panel>
+                      </div>
+                 </dialog>
+               </el-dialog>
+            </header>
+       </div>
+       <!-- ===============================HERO SECTION=============================-->
+       <div class="grid lg:grid-cols-2 gap-12 justify-items-center items-center">
+          <div class="px-6 pt-30 space-y-8">
+                <div class="inline-block px-4 py-2 bg-white bg-opacity-20 rounded-full backdrop-blur-sm">
+                  <span class="text-sm font-semibold">🚀 AI-Powered Sales Automation</span>
+               </div>
+               <h1 class="text-white text-5xl md:text-6xl lg:text-7xl font-bold leading-tight">
+                  Close More Deals with
+                  <span class="block bg-linear-to-r from-yellow-300 to-pink-300 bg-clip-text text-transparent">
+                     AI Intelligence
+                 </span>
+               </h1>
+               <p class="text-xl md:text-2xl text-indigo-100 leading-relaxed">
+                 Transform your sales process with cutting-edge AI that predicts customer behavior, automates follow-ups, and boosts conversion rates by 300%.
+               </p>
+               <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                  <button class="bg-linear-to-r from-indigo-500 to-violet-700 px-8 py-4 text-white rounded-xl font-semibold text-lg shadow-lg transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:shadow-2xl">
+                     Start Free Trial
+                  </button>
+                  <button class="border border-indigo-600 transition-all duration-300 ease-in-out px-8 py-4 text-white rounded-xl font-semibold text-lg hover:bg-indigo-700/10 hover:-translate-y-0.5">
+                     Watch Demo
+                 </button>
+               </div>
+               <div class="grid grid-cols-3 gap-4 py-8">
+                  <div class="border border-white/20 backdrop-blur-md transition-all duration-300 ease-in-out rounded-xl p-4 hover:-translate-y-2 hover:shadow-2xl">
+                      <div class="text-3xl font-bold text-white">300%</div>
+                      <div class="text-sm text-gray-400 mt-1">Conversion</div>
+                  </div>
+                  <div class="border border-white/20 backdrop-blur-md transition-all duration-300 ease-in-out rounded-xl p-4 hover:-translate-y-2 hover:shadow-2xl">
+                      <div class="text-3xl font-bold text-white">10k+</div>
+                      <div class="text-sm text-gray-400 mt-1">Users</div>
+                  </div>
+                  <div class="border border-white/20 backdrop-blur-md transition-all duration-300 ease-in-out rounded-xl p-4 hover:-translate-y-2 hover:shadow-2xl">
+                      <div class="text-3xl font-bold text-white">4.9★</div>
+                      <div class="text-sm text-gray-400 mt-1">Rating</div>
+                  </div>
+              </div>
+           </div>
+           <img class="pt-35 p-10 floating" src="/assest/analytics dashboard illustration.jpg" alt="">
+       </div>
+       <!-- ===============================BRAND SECTION=========================-->
+       <div class="bg-indigo-50 py-12 border-y border-indigo-400">
+         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <p class="text-center text-indigo-400 mb-8">Trusted by leading companies worldwide</p>
+              <div class="grid grid-cols-2 md:grid-cols-5 gap-8 items-center justify-items-center opacity-60">
+                  <div class="w-32 h-12 bg-linear-to-r from-indigo-600 to-indigo-700 rounded-lg flex items-center justify-center text-indigo-400 font-bold">ACME</div>
+                  <div class="w-32 h-12 bg-linear-to-r from-indigo-600 to-indigo-700 rounded-lg flex items-center justify-center text-indigo-400 font-bold">TECH</div>
+                  <div class="w-32 h-12 bg-linear-to-r from-indigo-600 to-indigo-700 rounded-lg flex items-center justify-center text-indigo-400 font-bold">CORP</div>
+                  <div class="w-32 h-12 bg-linear-to-r from-indigo-600 to-indigo-700 rounded-lg flex items-center justify-center text-indigo-400 font-bold">SALES</div>
+                  <div class="w-32 h-12 bg-linear-to-r from-indigo-600 to-indigo-700 rounded-lg flex items-center justify-center text-indigo-400 font-bold">GROW</div>
+              </div>
+          </div>
+      </div>
+      
+      <!-- ==================================FEATURES SECTION=====================================  -->
+       <div class="bg-gray-50 lg:py-20 sm:py-25" id="features">
+          <div class="mx-auto max-w-7xl px-6 lg:px-8">
+              <div class="mx-auto max-w-2xl lg:text-center">
+                 <h2 class="text-4xl md:text-5xl font-bold text-indigo-500">Powerful Features for Modern Sales Teams</h2>
+                 <p class="mt-6 text-lg/8 text-indigo-400">Everything you need to automate, optimize, and scale your sales operations.</p>
+              </div>
+              <div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
+                 <dl class="grid max-w-xl grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-3 lg:gap-y-16">
+                     <div class="relative p-8 transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:scale-105 bg-indigo-50 rounded-2xl  border border-indigo-700 hover:border-indigo-500">
+                        <dt class="text-2xl font-semibold text-gray-900">
+                             <div class="flex size-10 items-center justify-center rounded-lg  bg-linear-to-br from-purple-500 to-blue-600">
+                                 <!-- <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 text-white">
+                                     <path d="M12 16.5V9.75m0 0 3 3m-3-3-3 3M6.75 19.5a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z" stroke-linecap="round" stroke-linejoin="round" />
+                                 </svg> -->
+                                 <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                  </svg>
+                              </div>
+                               Predictive Analytics
+                          </dt>
+                          <dd class="mt-2 text-gray-600">AI-powered predictions identify high-value leads and optimal engagement times with 98% accuracy.</dd>
+                      </div>
+                      <div class="relative p-8 transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:scale-105 bg-indigo-50 rounded-2xl  border border-indigo-700 hover:border-indigo-500">
+                          <dt class="text-2xl font-semibold text-gray-900">
+                             <div class="flex size-10 items-center justify-center rounded-lg bg-linear-to-br from-pink-500 to-purple-600">
+                                 <!-- <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 text-white">
+                                     <path d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" stroke-linecap="round" stroke-linejoin="round" />
+                                 </svg> -->
+                                  <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                  </svg>
+                             </div>
+                               Smart Automation
+                          </dt>
+                          <dd class="mt-2 text-gray-600">Automate repetitive tasks, follow-ups, and personalized outreach at scale without losing the human touch.</dd>
+                      </div>
+                      <div class="relative p-8 transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:scale-105 bg-indigo-50 rounded-2xl  border border-indigo-700 hover:border-indigo-500">
+                          <dt class="text-2xl font-semibold text-gray-900">
+                             <div class=" flex size-10 items-center justify-center rounded-lg bg-linear-to-br from-blue-500 to-cyan-600">
+                                 <!-- <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 text-white">
+                                     <path d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" stroke-linecap="round" stroke-linejoin="round" />
+                                  </svg> -->
+                                  <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                  </svg>
+                              </div>
+                              Lead Scoring
+                          </dt>
+                          <dd class="mt-2 text-gray-600">Intelligent scoring system ranks prospects based on behavior, demographics, and engagement patterns.</dd>
+                      </div>
+                      <div class="relative p-8 transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:scale-105 bg-indigo-50 rounded-2xl  border border-indigo-700 hover:border-indigo-500">
+                          <dt class="text-2xl font-semibold text-gray-900">
+                               <div class="flex size-10 items-center justify-center rounded-lg bg-linear-to-br from-green-500 to-teal-600">
+                                   <!-- <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 text-white">
+                                      <path d="M7.864 4.243A7.5 7.5 0 0 1 19.5 10.5c0 2.92-.556 5.709-1.568 8.268M5.742 6.364A7.465 7.465 0 0 0 4.5 10.5a7.464 7.464 0 0 1-1.15 3.993m1.989 3.559A11.209 11.209 0 0 0 8.25 10.5a3.75 3.75 0 1 1 7.5 0c0 .527-.021 1.049-.064 1.565M12 10.5a14.94 14.94 0 0 1-3.6 9.75m6.633-4.596a18.666 18.666 0 0 1-2.485 5.33" stroke-linecap="round" stroke-linejoin="round" />
+                                  </svg> -->
+                                  <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                 </svg>
+                               </div>
+                                Email Intelligence
+                          </dt>
+                          <dd class="mt-2  text-gray-600">AI-generated email sequences that adapt based on recipient behavior and response patterns.</dd>
+                       </div>
+                       <div class="relative p-8 transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:scale-105 bg-indigo-50 rounded-2xl  border border-indigo-700 hover:border-indigo-500">
+                          <dt class="text-2xl font-semibold text-gray-900">
+                               <div class="flex size-10 items-center justify-center rounded-lg bg-linear-to-br from-orange-500 to-red-600">
+                                   <!-- <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 text-white">
+                                      <path d="M7.864 4.243A7.5 7.5 0 0 1 19.5 10.5c0 2.92-.556 5.709-1.568 8.268M5.742 6.364A7.465 7.465 0 0 0 4.5 10.5a7.464 7.464 0 0 1-1.15 3.993m1.989 3.559A11.209 11.209 0 0 0 8.25 10.5a3.75 3.75 0 1 1 7.5 0c0 .527-.021 1.049-.064 1.565M12 10.5a14.94 14.94 0 0 1-3.6 9.75m6.633-4.596a18.666 18.666 0 0 1-2.485 5.33" stroke-linecap="round" stroke-linejoin="round" />
+                                  </svg> -->
+                                  <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
+                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
+                                  </svg>
+                               </div>
+                                Real-time Analytics
+                          </dt>
+                          <dd class="mt-2 text-gray-600">Comprehensive dashboards track performance metrics and provide actionable insights instantly.</dd>
+                       </div>
+                       <div class="relative p-8 transition-all duration-300 ease-in-out hover:-translate-y-0.5 hover:scale-105 bg-indigo-50 rounded-2xl  border border-indigo-700 hover:border-indigo-500">
+                          <dt class="text-2xl font-semibold text-gray-900">
+                               <div class="flex size-10 items-center justify-center rounded-lg  bg-linear-to-br from-indigo-500 to-purple-600">
+                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" data-slot="icon" aria-hidden="true" class="size-6 text-white">
+                                     <path d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" stroke-linecap="round" stroke-linejoin="round" />
+                                 </svg>  
+                               </div>
+                                Advanced security
+                          </dt>
+                          <dd class="mt-2 text-gray-600">Arcu egestas dolor vel iaculis in ipsum mauris. Tincidunt mattis aliquet hac quis. Id hac maecenas ac donec pharetra eget.</dd>
+                       </div>
+                   </dl>
+               </div>
+           </div>
+        </div>
+
+       <!--==================================PRICING SECTION============================  -->
+       <div class="relative isolate px-6 py-24 sm:py-32 lg:px-8" id="pricing">
+          <div class="mx-auto max-w-4xl text-center">
+              <h2 class="text-3xl font-semibold  text-white">Pricing</h2>
+              <p class="mt-2 text-5xl md:text-6xl font-bold tracking-tight text-balance text-white sm:text-6xl">Simple, Transparent Pricing</p>
+          </div>
+          <p class="mx-auto mt-6 max-w-2xl text-center text-lg font-medium text-pretty text-gray-50 sm:text-xl/8">Choose the perfect plan for your team. Scale as you grow</p>
+          <div class="mx-auto mt-16 grid max-w-lg grid-cols-1 items-center gap-y-6 sm:mt-20 sm:gap-y-0 lg:max-w-4xl lg:grid-cols-3">
+              <div class="rounded-3xl transition-all duration-400 ease-in hover:-translate-y-3 bg-white p-8 ring-1 ring-gray-900/10 sm:mx-8 sm:p-10 lg:mx-1">
+                  <h3 id="tier-hobby" class="text-2xl font-bold text-indigo-600">Starter</h3>
+                  <p class="text-indigo-600">Perfect for small teams</p>
+                  <p class="mt-4 flex items-baseline gap-x-2">
+                     <span class="text-5xl font-semibold tracking-tight text-gray-900">$49</span>
+                     <span class="text-base text-gray-500">/month</span>
+                  </p>
+                  <p class="mt-6 text-base/7 text-gray-600">The perfect plan if you&#039;re just getting started with our product.</p>
+                  <ul role="list" class="mt-8 space-y-3 text-sm/6 text-gray-600 sm:mt-10">
+                     <li class="flex gap-x-3">
+                         <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="h-6 w-5 flex-none text-indigo-600">
+                             <path d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" fill-rule="evenodd" />
+                          </svg>
+                         Up to 1,000 contacts
+                     </li>
+                     <li class="flex gap-x-3">
+                          <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="h-6 w-5 flex-none text-indigo-600">
+                             <path d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" fill-rule="evenodd" />
+                          </svg>
+                          Basic AI predictions
+                      </li>
+                     <li class="flex gap-x-3">
+                         <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="h-6 w-5 flex-none text-indigo-600">
+                             <path d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" fill-rule="evenodd" />
+                         </svg>
+                          Email automation
+                      </li>
+                      <li class="flex gap-x-3">
+                         <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="h-6 w-5 flex-none text-indigo-600">
+                             <path d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" fill-rule="evenodd" />
+                          </svg>
+                          5 user seats
+                       </li>
+                       <li class="flex gap-x-3">
+                         <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="h-6 w-5 flex-none text-indigo-600">
+                             <path d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" fill-rule="evenodd" />
+                          </svg>
+                          Email support
+                       </li>
+                  </ul>
+                  <a href="#" aria-describedby="tier-hobby" class="mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-indigo-600 inset-ring inset-ring-indigo-200 hover:inset-ring-indigo-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:mt-10">Buy Plan</a>
+               </div>
+               <div class="rounded-3xl transition-all duration-400 ease-in scale-105 hover:scale-108 hover:-translate-y-3 bg-indigo-900 p-8 ring-1 ring-gray-200/10 sm:mx-8 sm:p-10 lg:mx-1">
+                  <h3 id="tier-hobby" class="text-2xl font-bold text-slate-50">Pro</h3>
+                  <p class=" text-slate-50">For growing teams</p>
+                  <p class="mt-4 flex items-baseline gap-x-2">
+                     <span class="text-5xl font-semibold tracking-tight text-gray-100">$149</span>
+                     <span class="text-base text-gray-300">/month</span>
+                  </p>
+                  <p class="mt-6 text-base/7 text-slate-300">The perfect plan if you&#039;re just getting started with our product.</p>
+                  <ul role="list" class="mt-8 space-y-3 text-sm/6 text-gray-300 sm:mt-10">
+                     <li class="flex gap-x-3">
+                         <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="h-6 w-5 flex-none text-indigo-400">
+                             <path d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" fill-rule="evenodd" />
+                          </svg>
+                         Up to 10,000 contacts
+                     </li>
+                     <li class="flex gap-x-3">
+                          <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="h-6 w-5 flex-none text-indigo-400">
+                             <path d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" fill-rule="evenodd" />
+                          </svg>
+                          Advanced AI predictions
+                      </li>
+                     <li class="flex gap-x-3">
+                         <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="h-6 w-5 flex-none text-indigo-400">
+                             <path d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" fill-rule="evenodd" />
+                         </svg>
+                          Full automation suite
+                      </li>
+                      <li class="flex gap-x-3">
+                         <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="h-6 w-5 flex-none text-indigo-400">
+                             <path d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" fill-rule="evenodd" />
+                          </svg>
+                          20 user seats
+                       </li>
+                       <li class="flex gap-x-3">
+                         <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="h-6 w-5 flex-none text-indigo-400">
+                             <path d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" fill-rule="evenodd" />
+                          </svg>
+                          Priority support
+                       </li>
+                       <li class="flex gap-x-3">
+                         <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="h-6 w-5 flex-none text-indigo-400">
+                             <path d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" fill-rule="evenodd" />
+                          </svg>
+                          Custom integrations
+                       </li>
+                  </ul>
+                  <a href="#" aria-describedby="tier-hobby" class="mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-indigo-900 inset-ring inset-ring-indigo-200  hover: border-gray-200 focus-visible:outline-2 focus-visible:outline-offset-2 bg-white sm:mt-10">Buy Plan </a>
+               </div>
+               <div class="rounded-3xl transition-all duration-400 ease-in hover:-translate-y-3 bg-white p-8 ring-1 ring-gray-900/10 sm:mx-8 sm:p-10 lg:mx-1">
+                  <h3 id="tier-hobby" class="text-2xl font-bold text-indigo-600">Enterprise</h3>
+                  <p class="text-indigo-600">For large organizations</p>
+                  <p class="mt-4 flex items-baseline gap-x-2">
+                     <span class="text-5xl font-semibold tracking-tight text-gray-900">$339</span>
+                     <span class="text-base text-gray-500">/month</span>
+                  </p>
+                  <p class="mt-6 text-base/7 text-gray-600">The perfect plan if you&#039;re just getting started with our product.</p>
+                  <ul role="list" class="mt-8 space-y-3 text-sm/6 text-gray-600 sm:mt-10">
+                     <li class="flex gap-x-3">
+                         <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="h-6 w-5 flex-none text-indigo-600">
+                             <path d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" fill-rule="evenodd" />
+                          </svg>
+                         Unlimited contacts
+                     </li>
+                     <li class="flex gap-x-3">
+                          <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="h-6 w-5 flex-none text-indigo-600">
+                             <path d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" fill-rule="evenodd" />
+                          </svg>
+                          Enterprise AI features
+                      </li>
+                      <li class="flex gap-x-3">
+                         <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="h-6 w-5 flex-none text-indigo-600">
+                             <path d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" fill-rule="evenodd" />
+                          </svg>
+                          Unlimited user seats
+                       </li>
+                        <li class="flex gap-x-3">
+                         <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="h-6 w-5 flex-none text-indigo-600">
+                             <path d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" fill-rule="evenodd" />
+                          </svg>
+                          24/7 support response time
+                       </li>
+                        <li class="flex gap-x-3">
+                         <svg viewBox="0 0 20 20" fill="currentColor" data-slot="icon" aria-hidden="true" class="h-6 w-5 flex-none text-indigo-600">
+                             <path d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" fill-rule="evenodd" />
+                          </svg>
+                          Dedicated support representative
+                       </li>
+                  </ul>
+                  <a href="#" aria-describedby="tier-hobby" class="mt-8 block rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-indigo-600 inset-ring inset-ring-indigo-200 hover:inset-ring-indigo-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 sm:mt-10">Buy Plan</a>
+               </div>  
+            </div>
+       </div>
+
+       <!-- =================================TESTIMONIAL SECTION================================= -->
+       <div class="relative isolate bg-white px-6 py-24 sm:py-32 lg:px-8" id="testimonials">
+           <div class="mx-auto max-w-4xl text-center">
+              <h2 class="text-3xl font-semibold text-indigo-600">Testimonials</h2>
+              <p class="mt-2 text-5xl md:text-6xl font-semibold tracking-tight text-balance text-indigo-500 sm:text-6xl">We have worked with thousands of Sales Teams Worldwide</p>
+          </div>
+          <p class="mx-auto mt-6 max-w-2xl text-center text-lg font-medium text-pretty text-indigo-400 sm:text-xl/8">See what our clients have to say about transforming their sales process with AI</p>
+          <!-- Horizontal Scrolling Container -->
+          <div id="testimonialScroll" class="overflow-auto no-scrollbar flex gap-6 pb-8 px-4 snap-x mt-8 snap-mandatory">
+             <!-- Testimonial Card 1 -->
+             <div class="transition-all duration-300 ease-in-out hover:-translate-y-2 shrink-0 w-80 md:w-96 bg-indigo-50 bg-opacity-50 backdrop-blur-xl rounded-3xl p-8 border border-indigo-200 shadow-2xl snap-center">
+                  <!-- Rating Stars -->
+                  <div class="flex gap-1 mb-6">
+                      <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                          <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                      </svg>
+                      <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                         <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                      </svg>
+                      <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                         <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                      </svg>
+                      <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                         <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                      </svg>
+                      <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                         <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                      </svg>
+                  </div>
+                
+                  <!-- Testimonial Text -->
+                  <p class="text-gray-600 text-lg leading-relaxed mb-6 italic">
+                     "SalesAI completely transformed our outreach process. We've seen a 250% increase in qualified leads and our team is closing deals faster than ever before."
+                  </p>
+                
+                  <!-- Author Info -->
+                  <div class="flex items-center gap-4 border-t border-slate-700 pt-6">
+                     <div>
+                         <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="mx-auto size-10 rounded-full w-14 h-14 " />
+                     </div>
+                     <div>
+                         <h4 class="text-gray-900 font-bold text-lg">Sarah Martinez</h4>
+                         <p class="text-gray-500 text-sm">VP of Sales, TechCorp</p>
+                     </div>
+                   </div>
+               </div>
+                <!-- Testimonial Card 2 -->
+                <div class="transition-all duration-300 ease-in-out hover:-translate-y-2 shrink-0 w-80 md:w-96 bg-indigo-50 bg-opacity-50 backdrop-blur-xl rounded-3xl p-8 border border-indigo-200 shadow-2xl snap-center">
+                 <div class="flex gap-1 mb-6">
+                      <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                      </svg>
+                      <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                     </svg>
+                     <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                     </svg>
+                     <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                     </svg>
+                     <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                     </svg>
+                  </div>
+                
+                  <p class="text-gray-600 text-lg leading-relaxed mb-6 italic">
+                    "The AI predictions are incredibly accurate. We now know exactly when to reach out to prospects and what messaging resonates. Game changer!"
+                  </p>
+                
+                 <div class="flex items-center gap-4 border-t border-slate-700 pt-6">
+                     <div>
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="mx-auto size-10 rounded-full w-14 h-14 "/>
+                      </div>
+                     <div>
+                        <h4 class="text-gray-900 font-bold text-lg">James Chen</h4>
+                        <p class="text-gray-500 text-sm">Sales Director, Growth Inc</p>
+                     </div>
+                  </div>
+               </div>
+
+               <!-- Testimonial Card 3 -->
+              <div class="transition-all duration-300 ease-in-out hover:-translate-y-2 shrink-0 w-80 md:w-96 bg-indigo-50 bg-opacity-50 backdrop-blur-xl rounded-3xl p-8 border border-indigo-200 shadow-2xl snap-center">
+                 <div class="flex gap-1 mb-6">
+                     <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                     </svg>
+                     <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                     </svg>
+                     <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                     </svg>
+                     <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                     </svg>
+                     <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                     </svg>
+                  </div>
+                
+                  <p class="text-gray-600 text-lg leading-relaxed mb-6 italic">
+                    "Our team's productivity has skyrocketed. The automation handles all the repetitive tasks so we can focus on building relationships and closing deals."
+                  </p>
+                
+                  <div class="flex items-center gap-4 border-t border-slate-700 pt-6">
+                     <div>
+                         <img src="https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="mx-auto size-10 rounded-full w-14 h-14" />
+                      </div>
+                      <div>
+                         <h4 class="text-gray-900 font-bold text-lg">Emily Parker</h4>
+                         <p class="text-gray-500 text-sm">CEO, StartupXYZ</p>
+                     </div>
+                  </div>
+               </div>
+
+              <!-- Testimonial Card 4 -->
+              <div class="transition-all duration-300 ease-in-out hover:-translate-y-2 shrink-0 w-80 md:w-96 bg-indigo-50 bg-opacity-50 backdrop-blur-xl rounded-3xl p-8 border border-indigo-200 shadow-2xl snap-center">
+                  <div class="flex gap-1 mb-6">
+                     <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                     </svg>
+                     <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                     </svg>
+                     <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                     </svg>
+                     <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                     </svg>
+                     <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                     </svg>
+                  </div>
+                
+                  <p class="text-gray-600 text-lg leading-relaxed mb-6 italic">
+                    "Best investment we've made in our sales tech stack. The ROI was immediate and the support team is incredibly responsive. Highly recommend!"
+                  </p>
+                
+                  <div class="flex items-center gap-4 border-t border-slate-700 pt-6">
+                     <div>
+                         <img src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="mx-auto size-10 rounded-full w-14 h-14" />
+                     </div>
+                     <div>
+                         <h4 class="text-gray-900 font-bold text-lg">Michael Rodriguez</h4>
+                         <p class="text-gray-500 text-sm">Head of Revenue, ScaleUp</p>
+                     </div>
+                  </div>
+               </div>
+
+              <!-- Testimonial Card 5 -->
+              <div class="transition-all duration-300 ease-in-out hover:-translate-y-2 shrink-0 w-80 md:w-96 bg-indigo-50 bg-opacity-50 backdrop-blur-xl rounded-3xl p-8 border border-indigo-200 shadow-2xl snap-center">
+                 <div class="flex gap-1 mb-6">
+                     <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                     </svg>
+                     <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                     </svg>
+                     <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                     </svg>
+                     <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                     </svg>
+                     <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                     </svg>
+                  </div>
+                
+                  <p class="text-gray-600 text-lg leading-relaxed mb-6 italic">
+                    "The lead scoring feature alone is worth the price. We're no longer wasting time on low-quality leads and our conversion rate has doubled."
+                 </p>
+                
+                 <div class="flex items-center gap-4 border-t border-slate-700 pt-6">
+                      <div>
+                         <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" class="mx-auto size-10 rounded-full w-14 h-14 " />
+                     </div>
+                      <div>
+                         <h4 class="text-gray-900 font-bold text-lg">Lisa Thompson</h4>
+                         <p class="text-gray-500 text-sm">Sales Manager, Enterprise Co</p>
+                      </div>
+                  </div>
+               </div>
+
+              <!-- Testimonial Card 6 -->
+              <div class="transition-all duration-300 ease-in-out hover:-translate-y-2 shrink-0 w-80 md:w-96 bg-indigo-50 bg-opacity-50 backdrop-blur-xl rounded-3xl p-8 border border-indigo-200 shadow-2xl snap-center">
+                 <div class="flex gap-1 mb-6">
+                     <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                     </svg>
+                     <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                     </svg>
+                     <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                     </svg>
+                     <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                     </svg>
+                     <svg class="star-icon w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                     </svg>
+                   </div>
+                
+                  <p class="text-gray-600 text-lg leading-relaxed mb-6 italic">
+                    "Integration with our CRM was seamless. Within a week, we had everything synced and our team was already seeing the benefits. Fantastic product!"
+                  </p>
+                
+                 <div class="flex items-center gap-4 border-t border-slate-700 pt-6">
+                     <div class="w-14 h-14 rounded-full bg-linear-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xl font-bold avatar-glow">
+                         <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80" alt="" class="mx-auto size-10 rounded-full w-14 h-14" />
+                     </div>
+                     <div>
+                         <h4 class="text-gray-900 font-bold text-lg">David Kim</h4>
+                         <p class="text-gray-500 text-sm">VP Operations, BigCorp</p>
+                     </div>
+                  </div>
+               </div>
+           </div>
+        </div>
+
+        <!-- =======================FAQ SECTION================================== -->
+        <div class="relative isolate bg-indigo-50 px-6 py-24 sm:py-32 lg:px-8" id="faq">
+           <div class="text-center">
+              <h2 class="text-3xl font-semibold text-indigo-600">FAQ</h2>
+              <p class="mt-2 text-5xl md:text-6xl font-semibold tracking-tight text-balance text-indigo-500 sm:text-6xl">Frequently Asked Questions</p>
+          </div>
+          <p class="mx-auto mt-6 max-w-2xl  text-center text-lg font-medium text-pretty text-indigo-400 sm:text-xl/8">Everything you need to know about SalesAI. Can't find the answer you're looking for? Feel free to contact our support team.</p>
+
+          <div class="space-y-4 mt-15 mx-auto max-w-4xl">
+            <!-- FAQ Item 1 -->
+            <div class="faq-card bg-indigo-500 bg-opacity-50 backdrop-blur-xl rounded-2xl border-2 border-indigo-700 overflow-hidden" id="faq-1">
+                <button 
+                    onclick="toggleAccordion('faq-1')" 
+                    class="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none"
+                >
+                    <span class="question-hover text-lg md:text-xl font-bold text-white pr-4">
+                        What is SalesAI and how does it work?
+                    </span>
+                    <svg class="accordion-icon w-6 h-6 text-violet-800 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="accordion-content px-6">
+                    <p class="text-gray-600 leading-relaxed">
+                        SalesAI is an AI-powered sales automation platform that helps teams close more deals faster. It uses machine learning to analyze your sales data, predict customer behavior, automate outreach, and provide actionable insights. The platform integrates seamlessly with your existing CRM and tools, learning from your best-performing sales patterns to optimize your entire sales process.
+                    </p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 2 -->
+            <div class="faq-card bg-indigo-500 bg-opacity-50 backdrop-blur-xl rounded-2xl border-2 border-indigo-700 overflow-hidden" id="faq-2">
+                <button 
+                    onclick="toggleAccordion('faq-2')" 
+                    class="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none"
+                >
+                    <span class="question-hover text-lg md:text-xl font-bold text-white pr-4">
+                        How long does it take to see results?
+                    </span>
+                    <svg class="accordion-icon w-6 h-6 text-violet-800 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="accordion-content px-6">
+                    <p class=" text-gray-600 leading-relaxed mb-4">
+                        Most teams see measurable results within the first 2-4 weeks. Here's what you can expect:
+                    </p>
+                    <ul class="text-gray-600 space-y-2 list-disc list-inside">
+                        <li><strong class="text-gray-600">Week 1:</strong> Setup and integration with your existing tools</li>
+                        <li><strong class="text-gray-600">Week 2-3:</strong> AI starts learning your patterns and providing initial insights</li>
+                        <li><strong class="text-gray-600">Week 4+:</strong> Full automation kicks in with optimized outreach and predictions</li>
+                    </ul>
+                    <p class="text-gray-600 leading-relaxed mt-4">
+                        On average, our customers see a 150% increase in qualified leads and 40% reduction in time spent on manual tasks within the first month.
+                    </p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 3 -->
+            <div class="faq-card bg-indigo-500 bg-opacity-50 backdrop-blur-xl rounded-2xl border-2 border-indigo-700 overflow-hidden" id="faq-3">
+                <button 
+                    onclick="toggleAccordion('faq-3')" 
+                    class="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none"
+                >
+                    <span class="question-hover text-lg md:text-xl font-bold text-white pr-4">
+                        What integrations do you support?
+                    </span>
+                    <svg class="accordion-icon w-6 h-6 text-violet-800 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="accordion-content px-6">
+                    <p class="text-gray-600 leading-relaxed mb-4">
+                        SalesAI integrates with 50+ popular tools and platforms including:
+                    </p>
+                    <div class="grid grid-cols-2 gap-4 text-gray-600">
+                        <div>
+                            <h4 class="text-gray-600 font-semibold mb-2">CRM Systems</h4>
+                            <ul class="space-y-1 text-sm">
+                                <li>• Salesforce</li>
+                                <li>• HubSpot</li>
+                                <li>• Pipedrive</li>
+                                <li>• Zoho CRM</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="text-gray-600 font-semibold mb-2">Communication</h4>
+                            <ul class="space-y-1 text-sm">
+                                <li>• Gmail</li>
+                                <li>• Outlook</li>
+                                <li>• Slack</li>
+                                <li>• Microsoft Teams</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed mt-4">
+                        We also offer custom integrations for Enterprise plans. Contact our team to discuss your specific integration needs.
+                    </p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 4 -->
+            <div class="faq-card bg-indigo-500 bg-opacity-50 backdrop-blur-xl rounded-2xl border-2 border-indigo-700 overflow-hidden" id="faq-4">
+                <button 
+                    onclick="toggleAccordion('faq-4')" 
+                    class="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none"
+                >
+                    <span class="question-hover text-lg md:text-xl font-bold text-white pr-4">
+                        Is my data secure?
+                    </span>
+                    <svg class="accordion-icon w-6 h-6 text-violet-800 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="accordion-content px-6">
+                    <p class="text-gray-600 leading-relaxed mb-4">
+                        Absolutely. We take data security extremely seriously. Your data is protected by:
+                    </p>
+                    <div class="bg-indigo-50 bg-opacity-50 rounded-xl p-4 mb-4">
+                        <ul class="text-gray-600 space-y-3">
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-indigo-400 mr-3 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                <span><strong class="text-gray-600">256-bit SSL encryption</strong> for all data in transit</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-indigo-400 mr-3 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                <span><strong class="text-gray-600">SOC 2 Type II certified</strong> infrastructure</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-indigo-400 mr-3 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                <span><strong class="text-gray-600">GDPR and CCPA compliant</strong> data handling</span>
+                            </li>
+                            <li class="flex items-start">
+                                <svg class="w-5 h-5 text-indigo-400 mr-3 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                </svg>
+                                <span><strong class="text-gray-600">Regular security audits</strong> by third-party experts</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed">
+                        We never sell your data to third parties and you maintain full ownership of all your information.
+                    </p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 5 -->
+            <div class="faq-card bg-indigo-500 bg-opacity-50 backdrop-blur-xl rounded-2xl border-2 border-indigo-700 overflow-hidden" id="faq-5">
+                <button 
+                    onclick="toggleAccordion('faq-5')" 
+                    class="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none">
+                    <span class="question-hover text-lg md:text-xl font-bold text-white pr-4">
+                        Can I cancel my subscription anytime?
+                    </span>
+                    <svg class="accordion-icon w-6 h-6 text-violet-800 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="accordion-content px-6">
+                    <p class="text-gray-600 leading-relaxed">
+                        Yes, absolutely. We believe in earning your business every month. You can cancel your subscription at any time with no penalties or fees. If you cancel, you'll continue to have access until the end of your current billing period. We also offer a 14-day free trial so you can test all features risk-free before committing. If you have any concerns, our support team is always happy to help find the right solution for your needs.
+                    </p>
+                </div>
+            </div>
+
+            <!-- FAQ Item 6 -->
+            <div class="faq-card bg-indigo-500 bg-opacity-50 backdrop-blur-xl rounded-2xl border-2 border-indigo-700 overflow-hidden" id="faq-6">
+                <button 
+                    onclick="toggleAccordion('faq-6')" 
+                    class="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none"
+                >
+                    <span class="question-hover text-lg md:text-xl font-bold text-white pr-4">
+                        What kind of support do you offer?
+                    </span>
+                    <svg class="accordion-icon w-6 h-6 text-violet-800 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div class="accordion-content px-6">
+                    <p class="text-gray-600 leading-relaxed mb-4">
+                        We offer comprehensive support tailored to your plan:
+                    </p>
+                    <div class="space-y-3">
+                        <div class="bg-indigo-50 bg-opacity-50 rounded-lg p-3">
+                            <h4 class="text-violet-950 font-semibold mb-1">Starter Plan</h4>
+                            <p class="text-gray-600 text-sm">Email support with 24-hour response time</p>
+                        </div>
+                        <div class="bg-indigo-50 bg-opacity-50 rounded-lg p-3">
+                            <h4 class="text-violet-950 font-semibold mb-1">Pro Plan</h4>
+                            <p class="text-gray-600 text-sm">Priority email + live chat support</p>
+                        </div>
+                        <div class="bg-indigo-50 bg-opacity-50 rounded-lg p-3">
+                            <h4 class="text-violet-950 font-semibold mb-1">Enterprise Plan</h4>
+                            <p class="text-gray-600 text-sm">24/7 phone support + dedicated account manager</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed mt-4">
+                        All plans include access to our comprehensive documentation, video tutorials, and community forum.
+                    </p>
+                </div>
+            </div>
+         </div>
+         </div>
+        </div>
+       <!-- =======================FOOTER SECTION================================== -->
+        <div class="relative isolate overflow-hidden py-16 sm:py-24 lg:py-32">
+            <div class="mx-auto max-w-7xl px-6 lg:px-8">
+               <div class="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2">
+                  <div class="max-w-xl lg:max-w-lg">
+                      <div class="flex items-center space-x-2">
+                            <div class="w-10 h-8 bg-white rounded-lg flex items-center justify-center pulse-glow">
+                              <span class="text-2xl font-bold text-indigo-600">S</span>
+                            </div>
+                            <span class="text-white text-xl font-bold">SalesAI</span>
+                      </div>
+                      <p class="mt-4 text-lg text-gray-300">Transform your sales process with cutting-edge AI technology. Close more deals, faster.</p>
+                      <h2 class="text-2xl font-semibold tracking-tight text-white">Subscribe to our newsletter</h2>
+                      <p class="mt-4 text-lg text-gray-300">Get the latest updates and exclusive offers.</p>
+                      <div class="mt-6 flex max-w-md gap-x-4">
+                         <label for="email-address" class="sr-only">Email address</label>
+                         <input id="email-address" type="email" name="email" required placeholder="Enter your email" autocomplete="email" class="min-w-0 flex-auto rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                         <button type="submit" class="flex-none rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Subscribe</button>
+                       </div>
+                   </div>
+                   <dl class="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-3 lg:pt-2">
+                       <div class="flex flex-col items-start">
+                          <div class="p-2">
+                              <dt class="mt-4 text-2xl font-bold text-white">Product</dt>
+                              <dd class="mt-2 text-base/7 text-gray-300">Features</dd>
+                              <dd class="mt-2 text-base/7 text-gray-300">Pricing</dd>
+                              <dd class="mt-2 text-base/7 text-gray-300">Integrations</dd>
+                              <dd class="mt-2 text-base/7 text-gray-300">API</dd>
+                              <dd class="mt-2 text-base/7 text-gray-300">Changelog</dd>
+                              <dd class="mt-2 text-base/7 text-gray-300">Roadmap</dd>        
+                           </div>
+                      </div>
+                      <div class="flex flex-col items-start">
+                          <div class="p-2">
+                              <dt class="mt-4 text-2xl font-semibold text-white">Company</dt>
+                              <dd class="mt-2 text-base/7 text-gray-300">About Us</dd>
+                              <dd class="mt-2 text-base/7 text-gray-300">Careers</dd>
+                              <dd class="mt-2 text-base/7 text-gray-300">Blog</dd>
+                              <dd class="mt-2 text-base/7 text-gray-300">Press Kit</dd>
+                              <dd class="mt-2 text-base/7 text-gray-300">Partners</dd>
+                              <dd class="mt-2 text-base/7 text-gray-300">Contact</dd> 
+                           </div>
+                     </div>
+                     <div class="flex flex-col items-start">
+                          <div class="p-2">
+                              <dt class="mt-4 text-2xl font-semibold text-white">Resources</dt>
+                              <dd class="mt-2 text-base/7 text-gray-300">Documentation</dd>
+                              <dd class="mt-2 text-base/7 text-gray-300">Help Center</dd>
+                              <dd class="mt-2 text-base/7 text-gray-300">Community</dd>
+                              <dd class="mt-2 text-base/7 text-gray-300">Tutorials</dd>
+                              <dd class="mt-2 text-base/7 text-gray-300">Webinars</dd>
+                              <dd class="mt-2 text-base/7 text-gray-300">Case Studies</dd>        
+                          </div>
+                      </div>
+                   </dl>
+               </div>
+           </div>
+        </div>
+        <div class="border-t border-slate-800 mb-8"></div>
+       <!-- Bottom Section -->
+       <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+          <!-- Copyright -->
+          <div class="text-gray-400 text-sm">
+             © 2026 SalesAI. All rights reserved.
+          </div>
+
+          <!-- Social Icons -->
+          <div class="flex items-center gap-4">
+              <!-- Twitter/X -->
+              <a href="#" class="social-icon w-10 h-10 bg-slate-100 hover:bg-linear-to-br hover:from-indigo-600 hover:to-violet-500 rounded-lg flex items-center justify-center border border-slate-700">
+                   <svg class="w-5 h-5 text-gray-700" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  </svg>
+              </a>
+
+              <!-- LinkedIn -->
+              <a href="#" class="social-icon w-10 h-10 bg-slate-100 hover:bg-linear-to-br hover:from-purple-600 hover:to-blue-600 rounded-lg flex items-center justify-center border border-slate-700">
+                   <svg class="w-5 h-5 text-gray-700" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                  </svg>
+              </a>
+
+              <!-- Facebook -->
+              <a href="#" class="social-icon w-10 h-10 bg-slate-100 hover:bg-linear-to-br hover:from-purple-600 hover:to-blue-600 rounded-lg flex items-center justify-center border border-slate-700">
+                   <svg class="w-5 h-5 text-gray-700" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                  </svg>
+              </a>
+
+              <!-- GitHub -->
+              <a href="#" class="social-icon w-10 h-10 bg-slate-100 hover:bg-linear-to-br hover:from-purple-600 hover:to-blue-600 rounded-lg flex items-center justify-center border border-slate-700">
+                  <svg class="w-5 h-5 text-gray-700" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                  </svg>
+              </a>
+
+              <!-- YouTube -->
+              <a href="#" class="social-icon w-10 h-10 bg-slate-100 hover:bg-linear-to-br hover:from-purple-600 hover:to-blue-600 rounded-lg flex items-center justify-center border border-slate-700">
+                  <svg class="w-5 h-5 text-gray-700" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                   </svg>
+              </a>
+           </div>
+
+           <!-- Legal Links -->
+           <div class="flex items-center gap-6 text-sm">
+              <a href="#" class="text-gray-400 hover:text-purple-400 transition-colors">Privacy Policy</a>
+              <a href="#" class="text-gray-400 hover:text-purple-400 transition-colors">Terms of Service</a>
+              <a href="#" class="text-gray-400 hover:text-purple-400 transition-colors">Cookies</a>
+            </div>        
+        </div>
+
+        <script>
+        function toggleAccordion(id) {
+            const faqCard = document.getElementById(id);
+            const content = faqCard.querySelector('.accordion-content');
+            const icon = faqCard.querySelector('.accordion-icon');
+            const isActive = content.classList.contains('active');
+            
+            // Close all other accordions
+            document.querySelectorAll('.accordion-content').forEach(item => {
+                if (item !== content) {
+                    item.classList.remove('active');
+                    item.parentElement.classList.remove('active');
+                    item.parentElement.querySelector('.accordion-icon').classList.remove('rotate');
+                }
+            });
+            
+            // Toggle current accordion
+            if (isActive) {
+                content.classList.remove('active');
+                faqCard.classList.remove('active');
+                icon.classList.remove('rotate');
+            } else {
+                content.classList.add('active');
+                faqCard.classList.add('active');
+                icon.classList.add('rotate');
+                
+                // Smooth scroll to the opened item
+                setTimeout(() => {
+                    faqCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 100);
+            }
+        }
+    </script>
+       
+   </body>
+</html>

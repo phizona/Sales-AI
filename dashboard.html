@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="/src/output.css">
+     <title>Dashboard</title>
+     <style>
+           @media (min-width: 768px) {
+               .sidebar {
+                  display: block;
+                }
+            }
+      </style>
+ </head>
+ <body class="bg-slate-950 text-gray-100">
+      <div class="flex h-screen overflow-hidden">
+          <!-- Side bar Navigation -->
+          <aside id="sidebar" class="sidebar w-64 fixed h-full z-40 md:static bg-linear-to-b from-indigo-950 to-violet-950 border-indigo-900/30 hidden">
+              <!-- logo -->
+              <div class="p-6 border-b border-slate-700 flex items-center justify-between">
+                 <div class="flex items-center space-x-2">
+                     <div  class="w-10 h-8 bg-white rounded-lg flex items-center justify-center   pulse-glow">
+                         <span class="text-2xl font-bold text-indigo-600">S</span>
+                      </div>
+                     <span class="text-white text-2xl font-bold">SalesAI</span>
+                  </div>
+                  <!-- close button -->
+                  <div id="close-btn" class="mt-1 md:hidden">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                     </svg>
+                  </div>
+              </div>
+              <!-- Side bar Navigation content -->
+             <nav class="p-4 space-y-2">
+                 <a href="#" onclick="showPage('dashboard')" class="flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-300 ease-in-out hover:bg-indigo-500 hover:border-l-4 border-indigo-50">
+                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                     </svg>
+                      <span>Dashboard</span>
+                  </a>
+                 <a href="#" onclick="showPage('analytics')" class=" flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-300 ease-in-out hover:bg-indigo-500 hover:border-l-4 border-indigo-50">
+                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                     </svg>
+                     <span>Analytics</span>
+                  </a>
+                  <a href="#" onclick="showPage('leads')" class=" flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-300 ease-in-out hover:bg-indigo-500 hover:border-l-4 border-indigo-50">
+                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                     </svg>
+                     <span>Leads</span>
+                  </a>
+                 <a href="#" onclick="showPage('campaigns')" class=" flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-300 ease-in-out hover:bg-indigo-500 hover:border-l-4 border-indigo-50">
+                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                     </svg>
+                     <span>Campaigns</span>
+                  </a>
+                  <a href="#" onclick="showPage('forms')" class=" flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-300 ease-in-out hover:bg-indigo-500 hover:border-l-4 border-indigo-50">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                     </svg>
+                     <span>Forms</span>
+                   </a>
+                   <a href="#" onclick="showPage('settings')" class=" flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-300 ease-in-out hover:bg-indigo-500 hover:border-l-4 border-indigo-50">
+                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                      </svg>
+                      <span>Settings</span>
+                   </a>
+                </nav>
+           </aside>
+           <!-- main-content -->
+           <main class=" flex-1 flex flex-col overflow-hidden">
+              <!-- Top Navbar -->
+              <nav class="bg-slate-900 border-b border-indigo-800/20 px-6 py-5.5">
+                 <div class="flex items-center justify-between">
+                      <!-- Open Button -->
+                       <div id="open-btn" class="md:hidden">
+                          <svg  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                          </svg>
+                       </div>
+                      <!-- Search Bar -->
+                      <div class="flex-1 max-w-xl mx-4">
+                          <div class="relative">
+                              <input type="text" placeholder="Search..." class="w-full bg-slate-800  border border-slate-700 rounded-lg pl-10 pr-4 py-2 text-sm focus:outline-none focus:border-indigo-800/20 transition-colors">
+                              <svg class="w-5 h-5 absolute left-3 top-2.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                             </svg>
+                           </div>
+                       </div>
+                       <!-- Right Menu -->
+                      <div class="flex items-center space-x-4">
+                          <!-- Notifications -->
+                          <div class="relative">
+                              <button  onclick="toggleDropdown('notifications')" class="relative p-2 text-gray-400 hover:text-white transition-colors">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                       <path stroke-linecap="round" stroke-linejoin="round"   stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                                  </svg>
+                                  <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                                </button>
+                              <div id="notifications" class="dropdown absolute right-0 mt-2 w-80 bg-slate-900 rounded-lg shadow-xl border border-slate-800 py-2 hidden">
+                                   <div class="px-4 py-2 border-b border-slate-800">
+                                      <h3 class="font-semibold">Notifications</h3>
+                                   </div>
+                                   <div class="max-h-64 overflow-y-auto">
+                                       <a href="#" class="block px-4 py-3 hover:bg-slate-800 transition-colors">
+                                         <p class="text-sm font-medium">New lead assigned</p>
+                                         <p class="text-xs text-gray-500 mt-1">John Doe - 5 minutes ago</p>
+                                      </a>
+                                      <a href="#" class="block px-4 py-3 hover:bg-slate-800 transition-colors">
+                                         <p class="text-sm font-medium">Campaign completed</p>
+                                         <p class="text-xs text-gray-500 mt-1">Q4 Outreach - 2 hours ago</p>
+                                      </a>
+                                   </div>
+                                </div>
+                           </div>
+                        
+                           <!-- Profile Dropdown -->
+                           <div class="relative">
+                               <button onclick="toggleDropdown('profile')" class="flex items-center space-x-3 focus:outline-none">
+                                   <div class="w-8 h-8 bg-indigo-500 rounded-full flex items-center justify-center">
+                                      <span class="text-sm font-bold">JD</span>
+                                   </div>
+                                </button>
+                              <div id="profile" class="dropdown absolute right-0 mt-2 w-48 bg-slate-900 rounded-lg shadow-xl border border-slate-800 py-2 hidden">
+                                  <a href="#" class="block px-4 py-2 hover:bg-slate-800 transition-colors">Profile</a>
+                                  <a href="#" class="block px-4 py-2 hover:bg-slate-800 transition-colors">Settings</a>
+                                  <hr class="border-slate-800 my-2">
+                                  <a href="#" class="block px-4 py-2 hover:bg-slate-800 text-red-400 transition-colors">Logout</a>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+              </nav>
+              <!-- page content -->
+               <div class="flex-1 overflow-y-auto p-6">
+                  <!-- Dashboard Page -->
+                  <div id="page-dashboard" class="page-content">
+                      <h1 class="text-3xl font-bold mb-6">Dashboard</h1>
+                      <!-- KPI Cards -->
+                      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                         <div class="bg-slate-900 rounded-xl p-6 border border-indigo-800/30 transition-all duration-300 ease-in-out hover:-translate-y-1.5 hover:shadow-lg hover:shadow-indigo-500">
+                             <div class="flex items-center justify-between mb-4">
+                                  <h3 class="text-gray-500 text-sm font-medium">Total Leads</h3>
+                                  <svg class="w-6 h-6 text-indigo-500" fill="none"  stroke="currentColor" viewBox="0 0 24 24">
+                                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17  20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                  </svg>
+                              </div>
+                              <p class="text-3xl font-bold mb-2">2,847</p>
+                              <p class="text-sm text-green-400 flex">
+                               <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                                  <path fill-rule="evenodd" d="M8 14a.75.75 0 0 0 .75-.75V4.56l1.22 1.22a.75.75 0 1 0 1.06-1.06l-2.5-2.5a.75.75 0 0 0-1.06 0l-2.5 2.5a.75.75 0 0 0 1.06 1.06l1.22-1.22v8.69c0 .414.336.75.75.75Z" clip-rule="evenodd" />
+                              </svg>
+                                12.5% from last month
+                             </p>
+                          </div>
+
+                          <div class="bg-slate-900 rounded-xl p-6 border border-indigo-800/30 transition-all duration-300 ease-in-out hover:-translate-y-1.5 hover:shadow-lg hover:shadow-indigo-500">
+                             <div class="flex items-center justify-between mb-4">
+                                  <h3 class="text-gray-500 text-sm font-medium">Conversion Rate</h3>
+                                  <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                                  </svg>
+                              </div>
+                              <p class="text-3xl font-bold mb-2">34.2%</p>
+                              <p class="text-sm text-green-400 flex">
+                                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                                  <path fill-rule="evenodd" d="M8 14a.75.75 0 0 0 .75-.75V4.56l1.22 1.22a.75.75 0 1 0 1.06-1.06l-2.5-2.5a.75.75 0 0 0-1.06 0l-2.5 2.5a.75.75 0 0 0 1.06 1.06l1.22-1.22v8.69c0 .414.336.75.75.75Z" clip-rule="evenodd" />
+                              </svg>
+                              5.3% from last month
+                              </p>
+                          </div>
+
+                          <div class="bg-slate-900 rounded-xl p-6 border border-indigo-800/30 transition-all duration-300 ease-in-out hover:-translate-y-1.5 hover:shadow-lg hover:shadow-indigo-500">
+                              <div class="flex items-center justify-between mb-4">
+                                   <h3 class="text-gray-500 text-sm font-medium">Revenue</h3>
+                                   <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path stroke-linecap="round" stroke-linejoin="round"  stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                   </svg>
+                              </div>
+                              <p class="text-3xl font-bold mb-2">$847K</p>
+                              <p class="text-sm text-green-400 flex">
+                                  <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+                                       <path fill-rule="evenodd" d="M8 14a.75.75 0 0 0 .75-.75V4.56l1.22 1.22a.75.75 0 1 0 1.06-1.06l-2.5-2.5a.75.75 0 0 0-1.06 0l-2.5 2.5a.75.75 0 0 0 1.06 1.06l1.22-1.22v8.69c0 .414.336.75.75.75Z" clip-rule="evenodd" />
+                                  </svg>
+                                  23.1% from last month 
+                                </p>
+                          </div>
+
+                          <div class="bg-slate-900 rounded-xl p-6 border border-indigo-800/30 transition-all duration-300 ease-in-out hover:-translate-y-1.5 hover:shadow-lg hover:shadow-indigo-500">
+                             <div class="flex items-center justify-between mb-4">
+                                   <h3 class="text-gray-500 text-sm font-medium">Active Campaigns</h3>
+                                   <svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                   </svg>
+                              </div>
+                              <p class="text-3xl font-bold mb-2">12</p>
+                              <p class="text-sm text-gray-500">4 ending this week</p>
+                          </div>
+                       </div>
+
+                       <!-- Charts Row -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-slate-900 rounded-xl p-6 border border-indigo-800/30">
+                            <h3 class="text-lg font-semibold mb-4">Revenue Overview</h3>
+                            <div class="h-64 bg-slate-800 rounded-lg flex items-center justify-center">
+                                <div>
+                                    <img src="/assest/revenue overview.jpg" alt="">
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-900 rounded-xl p-6 border border-indigo-800/30">
+                            <h3 class="text-lg font-semibold mb-4">Lead Sources</h3>
+                            <div class="h-64 bg-slate-800 rounded-lg flex items-center justify-center">
+                                <div >
+                                    <img class="w-80"  src="/assest/lead source.png" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Table -->
+                    <div class="bg-slate-900 rounded-xl border border-indigo-800/30 overflow-hidden">
+                        <div class="p-6 border-b border-slate-800">
+                            <h3 class="text-lg font-semibold">Recent Leads</h3>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full">
+                                <thead class="bg-slate-800">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500  tracking-wider">NAME</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500  tracking-wider">EMAIL</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500  tracking-wider">SCORE</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500  tracking-wider">STATUS</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500  tracking-wider">DATE</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-700">
+                                    <tr class="hover:bg-slate-800 transition-colors">
+                                        <td class="px-6 py-4 whitespace-nowrap">Sarah Johnson</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">sarah.j@gmail.com</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 py-1 bg-green-500 bg-opacity-20 text-green-800 rounded-full text-xs font-medium">92</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-3 py-1 bg-blue-500 bg-opacity-20 text-blue-800 rounded-full text-xs font-medium">Contacted</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">Jan 20, 2026</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-800 transition-colors bg-slate-750">
+                                        <td class="px-6 py-4 whitespace-nowrap">Michael Chen</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">m.chen@yahoo.com</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 py-1 bg-yellow-500 bg-opacity-20 text-yellow-800 rounded-full text-xs font-medium">78</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-3 py-1 bg-purple-500 bg-opacity-20 text-purple-800 rounded-full text-xs font-medium">Qualified</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">Jan 19, 2026</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-800 transition-colors">
+                                        <td class="px-6 py-4 whitespace-nowrap">Emily Davis</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">emily.d@gmail.com</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 py-1 bg-green-500 bg-opacity-20 text-green-800 rounded-full text-xs font-medium">95</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-3 py-1 bg-green-500 bg-opacity-20 text-green-800 rounded-full text-xs font-medium">Won</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">Jan 18, 2026</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-800 transition-colors bg-slate-750">
+                                        <td class="px-6 py-4 whitespace-nowrap">David Kim</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">david.k@yahoo.com</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 py-1 bg-red-500 bg-opacity-20 text-red-800 rounded-full text-xs font-medium">45</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-3 py-1 bg-gray-500 bg-opacity-20 text-gray-800 rounded-full text-xs font-medium">New</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">Jan 17, 2026</td>
+                                    </tr>
+                                    <tr class="hover:bg-slate-800 transition-colors">
+                                        <td class="px-6 py-4 whitespace-nowrap">Lisa Anderson</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">lisa.a@gmail.com</td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 py-1 bg-yellow-500 bg-opacity-20 text-yellow-800 rounded-full text-xs font-medium">82</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-3 py-1 bg-blue-500 bg-opacity-20 text-blue-800 rounded-full text-xs font-medium">Contacted</span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-gray-500">Jan 16, 2026</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="px-6 py-4 border-t border-slate-700 flex items-center justify-between">
+                            <p class="text-sm text-gray-500">Showing 1 to 5 of 2,847 results</p>
+                            <div class="flex space-x-2">
+                                <button class="px-3 py-1 bg-slate-800 rounded text-slate-800 hover:bg-slate-700 transition-colors">Previous</button>
+                                <button class="px-3 py-1 bg-indigo-500 rounded text-indigo-800 hover:bg-indigo-600 transition-colors">Next</button>
+                            </div>
+                        </div>
+                  </div>
+                  </div>
+                  
+                   <!-- Forms Page -->
+                   <div id="page-forms" class="page-content hidden">
+                       <h1 class="text-3xl font-bold mb-6">Create New Lead</h1>
+
+                       <div class="bg-slate-900 rounded-xl p-8 border border-indigo-800/30 max-w-2xl">
+                            <form onsubmit="handleFormSubmit(event)">
+                                <div class="space-y-6">
+                                    <!-- Name Field -->
+                                    <div>
+                                       <label class="block text-sm font-medium mb-2">Full Name</label>
+                                       <input type="text" required class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-indigo-800/20 transition-colors">
+                                       <p id="name-error" class="text-red-400 text-sm mt-1 hidden">Please enter a valid name</p>
+                                   </div>
+
+                                   <!-- Email Field -->
+                                   <div>
+                                       <label class="block text-sm font-medium mb-2">Email Address</label>
+                                       <input type="email" required class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-indigo-800/20 transition-colors">
+                                       <p id="email-error" class="text-red-400 text-sm mt-1 hidden">Please enter a valid email</p>
+                                   </div>
+
+                                   <!-- Phone Field -->
+                                   <div>
+                                       <label class="block text-sm font-medium mb-2">Phone Number</label>
+                                       <input type="tel" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-indigo-800/20 transition-colors">
+                                   </div>
+
+                                   <!-- Company Field -->
+                                    <div>
+                                       <label class="block text-sm font-medium mb-2">Company</label>
+                                       <input type="text" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-indigo-800/20 transition-colors">
+                                   </div>
+
+                                   <!-- Lead Source Dropdown -->
+                                   <div>
+                                        <label class="block text-sm font-medium mb-2">Lead Source</label>
+                                        <select class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-indigo-800/20 transition-colors">
+                                           <option>Select a source</option>
+                                           <option>Website</option>
+                                           <option>Referral</option>
+                                           <option>LinkedIn</option>
+                                           <option>Cold Email</option>
+                                           <option>Event</option>
+                                        </select>
+                                  </div>
+
+                                  <!-- Notes Textarea -->
+                                  <div>
+                                      <label class="block text-sm font-medium mb-2">Notes</label>
+                                      <textarea rows="4" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-indigo-800/20 transition-colors" placeholder="Add any additional notes..."></textarea>
+                                  </div>
+
+                                  <!-- Priority -->
+                                  <div>
+                                      <label class="block text-sm font-medium mb-2">Priority</label>
+                                      <div class="flex space-x-4">
+                                          <label class="flex items-center">
+                                               <input type="radio" name="priority" value="low" class="mr-2">
+                                               <span>Low</span>
+                                          </label>
+                                          <label class="flex items-center">
+                                              <input type="radio" name="priority" value="medium" checked class="mr-2">
+                                              <span>Medium</span>
+                                          </label>
+                                          <label class="flex items-center">
+                                              <input type="radio" name="priority" value="high" class="mr-2">
+                                              <span>High</span>
+                                          </label>
+                                       </div>
+                                  </div>
+
+                                  <!-- Buttons -->
+                                  <div class="flex space-x-4 pt-4">
+                                       <button type="submit" class="flex-1 bg-indigo-500 text-white px-6 py-3 rounded-lg font-semibold transition-all">
+                                          Create Lead
+                                      </button>
+                                      <button type="button" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 rounded-lg font-semibold transition-colors">
+                                          Cancel
+                                      </button>
+                                  </div>
+                              </div>
+                           </form>
+                       </div>
+                   </div>
+
+                   <!-- Settings Page -->
+                   <div id="page-settings" class="page-content hidden">
+                       <h1 class="text-3xl font-bold mb-6">Settings</h1>
+                       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                          <!-- Settings Sidebar -->
+                          <div class="lg:col-span-1">
+                               <div class="bg-slate-900 rounded-xl border border-indigo-800/20 p-4">
+                                   <nav class="space-y-2">
+                                       <a href="#" onclick="showSettingsTab('account')" class="settings-tab active block px-4 py-2 rounded-lg hover:bg-slate-800 transition-colors" data-tab="account">Account</a>
+                                       <a href="#" onclick="showSettingsTab('notifications')" class="settings-tab block px-4 py-2 rounded-lg hover:bg-slate-800 transition-colors" data-tab="notifications">Notifications</a>
+                                       <a href="#" onclick="showSettingsTab('security')" class="settings-tab block px-4 py-2 rounded-lg hover:bg-slate-800 transition-colors" data-tab="security">Security</a>
+                                       <a href="#" onclick="showSettingsTab('billing')" class="settings-tab block px-4 py-2 rounded-lg hover:bg-slate-800 transition-colors" data-tab="billing">Billing</a>
+                                   </nav>
+                               </div>
+                          </div>
+
+                          <!-- Settings Content -->
+                          <div class="lg:col-span-2">
+                              <!-- Account Settings -->
+                              <div id="settings-account" class="settings-content bg-slate-900 rounded-xl border border-indigo-800/20 p-6">
+                                  <h2 class="text-xl font-bold mb-6">Account Settings</h2>
+                                
+                                  <div class="space-y-6">
+                                      <div class="flex items-center space-x-4">
+                                          <div class="w-20 h-20 bg-indigo-500 rounded-full flex items-center justify-center text-2xl font-bold">
+                                              JD
+                                          </div>
+                                          <div>
+                                             <button class="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 rounded-lg text-sm font-semibold transition-colors">Change Avatar</button>
+                                          </div>
+                                      </div>
+
+                                      <div class="grid grid-cols-2 gap-4">
+                                          <div>
+                                             <label class="block text-sm font-medium mb-2">First Name</label>
+                                             <input type="text" value="John" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 focus:outline-none focus:border-indigo-800/20">
+                                          </div>
+                                          <div>
+                                             <label class="block text-sm font-medium mb-2">Last Name</label>
+                                             <input type="text" value="Doe" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 focus:outline-none focus:border-indigo-800/20">
+                                          </div>
+                                      </div>
+
+                                      <div>
+                                          <label class="block text-sm font-medium mb-2">Email</label>
+                                          <input type="email" value="john.doe@example.com" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 focus:outline-none focus:border-indigo-800/20">
+                                      </div>
+
+                                      <div>
+                                          <label class="block text-sm font-medium mb-2">Bio</label>
+                                          <textarea rows="3" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 focus:outline-none focus:border-indigo-800/20">Sales manager with 10+ years experience...</textarea>
+                                      </div>
+
+                                      <div class="pt-4">
+                                           <button class="px-6 py-2 bg-indigo-500 hover:bg-indigo-600 rounded-lg font-semibold transition-colors">Save Changes</button>
+                                      </div>
+                                   </div>
+                               </div>
+
+                               <!-- Notifications Settings -->
+                               <div id="settings-notifications" class="settings-content hidden bg-slate-900 rounded-xl border border-slate-800 p-6">
+                                   <h2 class="text-xl font-bold mb-6">Notification Preferences</h2>
+                                
+                                   <div class="space-y-6">
+                                      <div class="flex items-center justify-between py-3 border-b border-slate-800">
+                                          <div>
+                                              <h3 class="font-medium">Email Notifications</h3>
+                                              <p class="text-sm text-gray-500">Receive email updates about your leads</p>
+                                          </div>
+                                          <label class="relative inline-flex items-center cursor-pointer">
+                                              <input type="checkbox" checked class="sr-only peer">
+                                              <div class="w-10 h-5 bg-slate-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                                          </label>
+                                      </div>
+
+                                      <div class="flex items-center justify-between py-3 border-b border-slate-700">
+                                          <div>
+                                              <h3 class="font-medium">Push Notifications</h3>
+                                              <p class="text-sm text-gray-400">Get push notifications on mobile</p>
+                                          </div>
+                                          <label class="relative inline-flex items-center cursor-pointer">
+                                              <input type="checkbox" checked class="sr-only peer">
+                                              <div class="w-10 h-5 bg-slate-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                                          </label>
+                                       </div>
+
+                                      <div class="flex items-center justify-between py-3 border-b border-slate-700">
+                                          <div>
+                                              <h3 class="font-medium">Weekly Reports</h3>
+                                              <p class="text-sm text-gray-400">Receive weekly performance summaries</p>
+                                          </div>
+                                          <label class="relative inline-flex items-center cursor-pointer">
+                                              <input type="checkbox" class="sr-only peer">
+                                              <div class="w-10 h-5 bg-slate-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                                          </label>
+                                      </div>
+
+                                      <div class="flex items-center justify-between py-3">
+                                          <div>
+                                              <h3 class="font-medium">Marketing Emails</h3>
+                                              <p class="text-sm text-gray-400">Receive tips and product updates</p>
+                                          </div>
+                                          <label class="relative inline-flex items-center cursor-pointer">
+                                              <input type="checkbox" checked class="sr-only peer">
+                                              <div class="w-10 h-5 bg-slate-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                                          </label>
+                                       </div>
+                                   </div>
+                                </div>
+
+                                <!-- Security Settings -->
+                                <div id="settings-security" class="settings-content hidden bg-slate-900 rounded-xl border border-indigo-800/20 p-6">
+                                    <h2 class="text-xl font-bold mb-6">Security</h2>
+                                
+                                    <div class="space-y-6">
+                                       <div>
+                                          <h3 class="font-medium mb-4">Change Password</h3>
+                                          <div class="space-y-4">
+                                              <div>
+                                                  <label class="block text-sm font-medium mb-2">Current Password</label>
+                                                  <input type="password" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 focus:outline-none focus:border-indigo-800/20">
+                                              </div>
+                                              <div>
+                                                  <label class="block text-sm font-medium mb-2">New Password</label>
+                                                  <input type="password" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 focus:outline-none focus:border-indigo-800/20">
+                                              </div>
+                                              <div>
+                                                  <label class="block text-sm font-medium mb-2">Confirm New Password</label>
+                                                  <input type="password" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 focus:outline-none focus:border-indigo-800/20">
+                                              </div>
+                                              <button class="px-6 py-2 bg-indigo-500 hover:bg-indigo-600 rounded-lg font-semibold transition-colors">Update Password</button>
+                                          </div>
+                                       </div>
+
+                                       <div class="border-t border-slate-800 pt-6">
+                                          <h3 class="font-medium mb-4">Two-Factor Authentication</h3>
+                                          <p class="text-sm text-gray-500 mb-4">Add an extra layer of security to your account</p>
+                                          <button class="px-6 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg font-semibold transition-colors">Enable 2FA</button>
+                                      </div>
+                                  </div>
+                               </div>
+
+                               <!-- Billing Settings -->
+                               <div id="settings-billing" class="settings-content hidden bg-slate-900 rounded-xl border border-slate-800 p-6">
+                                   <h2 class="text-xl font-bold mb-6">Billing & Subscription</h2>
+                                
+                                  <div class="space-y-6">
+                                      <div class="bg-linear-to-r from-indigo-500 to-violet-500 rounded-lg p-6">
+                                          <div class="flex items-center justify-between">
+                                              <div>
+                                                  <h3 class="text-xl font-bold mb-1">Pro Plan</h3>
+                                                  <p class="text-purple-100">$149/month</p>
+                                              </div>
+                                              <button class="px-4 py-2 bg-white text-indigo-500 rounded-lg font-semibold hover:bg-opacity-90 transition-colors">Upgrade</button>
+                                           </div>
+                                      </div>
+
+                                      <div>
+                                          <h3 class="font-medium mb-4">Payment Method</h3>
+                                          <div class="bg-slate-800 rounded-lg p-4 flex items-center justify-between">
+                                              <div class="flex items-center space-x-3">
+                                                   <div class="w-12 h-8 bg-slate-700 rounded flex items-center justify-center text-xs font-bold">VISA</div>
+                                                       <div>
+                                                          <p class="font-medium">•••• 4242</p>
+                                                          <p class="text-sm text-gray-500">Expires 12/2027</p>
+                                                       </div>
+                                                   </div>
+                                                   <button class="text-sm text-indigo-400 hover:text-indigo-300">Update</button>
+                                               </div>
+                                           </div>
+
+                                           <div>
+                                              <h3 class="font-medium mb-4">Billing History</h3>
+                                              <div class="space-y-2">
+                                                  <div class="bg-slate-800 rounded-lg p-4 flex items-center justify-between">
+                                                      <div>
+                                                          <p class="font-medium">January 2026</p>
+                                                          <p class="text-sm text-gray-500">Paid on Jan 1, 2026</p>
+                                                      </div>
+                                                      <div class="text-right">
+                                                          <p class="font-medium">$149.00</p>
+                                                          <a href="#" class="text-sm text-indigo-400 hover:text-indigo-300">Download</a>
+                                                      </div>
+                                                  </div>
+                                                  <div class="bg-slate-800 rounded-lg p-4 flex items-center justify-between">
+                                                      <div>
+                                                          <p class="font-medium">December 2025</p>
+                                                          <p class="text-sm text-gray-500">Paid on Dec 1, 2025</p>
+                                                      </div>
+                                                      <div class="text-right">
+                                                          <p class="font-medium">$149.00</p>
+                                                          <a href="#" class="text-sm text-indigo-400 hover:text-indigo-300">Download</a>
+                                                      </div>
+                                                  </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                          </div>
+                      </div>
+                   </div>
+
+                   <!-- Analytics Page-->
+                   <div id="page-analytics" class="page-content hidden pl-10 min-h-full">
+                       <h1 class="text-3xl font-bold mb-6">Analytics</h1>
+                       <p class="text-gray-400">Analytics content goes here...</p>
+                  </div>
+
+                  <!-- Leads Page -->
+                  <div id="page-leads" class="page-content hidden pl-10 min-h-full">
+                      <h1 class="text-3xl font-bold mb-6">Leads</h1>
+                      <p class="text-gray-400">Leads content goes here...</p>
+                  </div>
+
+                  <!-- Campaigns Page -->
+                  <div id="page-campaigns" class="page-content hidden pl-10 min-h-full">
+                      <h1 class="text-3xl font-bold mb-6">Campaigns</h1>
+                      <p class="text-gray-400">Campaigns content goes here...</p>
+                  </div>
+
+                </div>
+          </main>
+      </div>
+ 
+      <script>
+        // sidebar toggle functionality
+        const sideBar = document.querySelector("aside");
+        const openBtn = document.querySelector("#open-btn");
+        const closeBtn= document.querySelector("#close-btn");
+
+        openBtn.addEventListener('click', () => {
+            sideBar.style.display = 'block';
+        })
+
+        closeBtn.addEventListener('click', () => {
+            sideBar.style.display = 'none';
+        })
+
+        // Toggle Dropdown (show/hide on click)
+        function toggleDropdown(id) {
+        const dropdown = document.getElementById(id);
+    
+        // Close all other dropdowns first
+        document.querySelectorAll('.dropdown').forEach(d => {
+           if (d.id !== id) {
+            d.classList.add('hidden');
+        }
+       });
+    
+        // Toggle the clicked dropdown
+        dropdown.classList.toggle('hidden');
+        }
+
+       // Close dropdowns when clicking outside
+       document.addEventListener('click', function(event) {
+
+       // Check if click is on a dropdown button
+       const isDropdownButton = event.target.closest('button[onclick*="toggleDropdown"]');
+    
+       // Check if click is inside any dropdown menu
+       const isInsideDropdown = event.target.closest('.dropdown');
+    
+       // If clicked outside both button and dropdown, close all dropdowns
+       if (!isDropdownButton && !isInsideDropdown) {
+         document.querySelectorAll('.dropdown').forEach(dropdown => {
+            dropdown.classList.add('hidden');
+           });
+        }
+        });
+
+
+        // Show Page
+        function showPage(pageName) {
+            // Hide all pages
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.add('hidden');
+            });
+            
+            // Show selected page
+            document.getElementById('page-' + pageName).classList.remove('hidden');  
+        }
+
+        // Show Settings Tab
+        function showSettingsTab(tabName) {
+            // Hide all settings content
+            document.querySelectorAll('.settings-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // Show selected content
+            document.getElementById('settings-' + tabName).classList.remove('hidden');   
+        }
+
+        // Form Submit Handler
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            alert('Lead created successfully!');
+            event.target.reset();
+        }
+
+      </script> 
+  </body>
+</html>
